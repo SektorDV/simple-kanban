@@ -25,3 +25,11 @@ export const CloseButton = styled.div`
     text-align: center;
     vertical-align: middle;
 `
+
+export const TaskId = styled.p`
+    position: absolute;
+    opacity: 0.5;
+    bottom: 0px;
+    right: 5px;
+    font-size: 0.7rem;
+`

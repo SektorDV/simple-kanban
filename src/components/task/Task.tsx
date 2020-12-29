@@ -1,5 +1,5 @@
 import React from "react";
-import { Wrapper, CloseButton } from "./styles";
+import { Wrapper, CloseButton, TaskId } from "./styles";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { DELETE_TASK } from "store/actions";
@@ -27,6 +27,7 @@ const Task: React.FC<ITask> = ({ id, content, index }) => {
         >
           {content}
           <CloseButton onClick={() => handleDelete(id)}>x</CloseButton>
+          <TaskId>Task ID: {id}</TaskId>
         </Wrapper>
       )}
     </Draggable>
