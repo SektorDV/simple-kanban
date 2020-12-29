@@ -1,17 +1,26 @@
 import {UPDATE_COLUMNS, DELETE_TASK, ADD_TASK, UPDATE_TASK_CONTENT} from './actions'
 import {AppActionTypes} from './types'
 import {initialData} from './initialState'
+import {IAppState} from './types'
 /* eslint-disable import/no-anonymous-default-export */
+
+const updateLocal = (state: IAppState) => {
+    window.localStorage.setItem('appData', JSON.stringify(state))
+}
+
 export default (state = initialData, action: AppActionTypes) => {
+    let newState
     switch(action.type) {
         case UPDATE_COLUMNS:
-            return {
+            newState = {
                 ...state,
                 columns: {
                     ...state.columns,
                     [action.payload.id]: action.payload
                 }
             }
+            updateLocal(newState);
+            return newState
         case DELETE_TASK:
             const newTasks = {...state.tasks};
             delete newTasks[action.payload];
@@ -19,7 +28,7 @@ export default (state = initialData, action: AppActionTypes) => {
             const columnToUpdate = Object.values(state.columns).filter(column => column.taskIds.includes(action.payload))[0]
             const newTaskIds = columnToUpdate.taskIds.filter(taskId => taskId !== action.payload)
 
-            return {
+            newState = {
                 ...state,
                 tasks: newTasks,
                 columns: {
@@ -30,15 +39,17 @@ export default (state = initialData, action: AppActionTypes) => {
                     }
                 }
             }
+            updateLocal(newState);
+            return newState;
 
         case ADD_TASK:
-            return {
+            newState = {
                 ...state,
                 tasks: {
                     ...state.tasks,
                     [`task-${state.currentIndex}`]: {
                         id: `task-${state.currentIndex}`,
-                        content: 'Enter task description'
+                        content: ''
                     }
                 },
                 columns: {
@@ -50,9 +61,11 @@ export default (state = initialData, action: AppActionTypes) => {
                 },
                 currentIndex: state.currentIndex + 1
             }
+            updateLocal(newState)
+            return newState
 
         case UPDATE_TASK_CONTENT:
-            return {
+            newState = {
                 ...state,
                 tasks: {
                     ...state.tasks,
@@ -62,6 +75,8 @@ export default (state = initialData, action: AppActionTypes) => {
                     }
                 }
             }
+            updateLocal(newState);
+            return newState;
         default:
             return state
     }

@@ -23,15 +23,6 @@ const Task: React.FC<ITask> = ({ id, content, index }) => {
     }
   }, [textAreaRef, isEdit]);
 
-  useEffect(() => {
-    if (currentContent.trim().length === 0 && !isEdit)
-      setCurrentContent("Enter task description");
-
-    if (currentContent === "Enter task description" && isEdit) {
-      setCurrentContent("");
-    }
-  }, [currentContent, isEdit]);
-
   const handleDelete = (id: ITask["id"]) => {
     dispatch({ type: DELETE_TASK, payload: id });
   };
@@ -67,7 +58,11 @@ const Task: React.FC<ITask> = ({ id, content, index }) => {
           ref={provided.innerRef}
         >
           {!isEdit && (
-            <TaskText onClick={toggleEdit}>{currentContent}</TaskText>
+            <TaskText onClick={toggleEdit}>
+              {currentContent.trim().length > 0
+                ? currentContent
+                : "Enter task description"}
+            </TaskText>
           )}
           {isEdit && (
             <textarea
