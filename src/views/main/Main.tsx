@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { Wrapper } from "./styles/index";
-import Column from "components/column/Column";
+import Column, { IColumn } from "components/column/Column";
 import Button from "components/button/Button";
 import { initialData } from "store/initialState";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
-import { UPDATE_COLUMNS } from "store/actions";
+import { ADD_TASK, UPDATE_COLUMNS } from "store/actions";
 
 const Main: React.FC = () => {
   const [currentId, setCurrentId] = useState<number>(1);
-
+  const currentIndex = useSelector(
+    (state: RootStateOrAny) => state.currentIndex
+  );
   const { columns } = useSelector((state: RootStateOrAny) => state);
   const dispatch = useDispatch();
   const onDragEnd = (result: DropResult) => {
@@ -54,6 +56,15 @@ const Main: React.FC = () => {
     }
   };
 
+  const handleAddTask = (columnId: IColumn["id"]) => {
+    dispatch({
+      type: ADD_TASK,
+      payload: {
+        columnId,
+      },
+    });
+  };
+
   return (
     <Wrapper>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -65,7 +76,11 @@ const Main: React.FC = () => {
               taskIds={columns[column].taskIds}
               id={column}
             >
-              <Button color="green" label="+" />
+              <Button
+                color="green"
+                label="+"
+                clickHandler={() => handleAddTask(column)}
+              />
             </Column>
           );
         })}

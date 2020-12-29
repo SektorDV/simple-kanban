@@ -4,6 +4,7 @@ import styled from "styled-components";
 interface IButton {
   label: string;
   color: "red" | "green";
+  clickHandler?: (param: any) => void;
 }
 
 const StyledButton = styled.button`
@@ -22,8 +23,12 @@ const StyledButton = styled.button`
   align-self: center;
 `;
 
-const Button: React.FC<IButton> = ({ label, color }) => {
-  return <StyledButton color={color}>{label}</StyledButton>;
+const Button: React.FC<IButton> = ({ label, color, clickHandler }) => {
+  return (
+    <StyledButton onClick={clickHandler} color={color}>
+      {label}
+    </StyledButton>
+  );
 };
 
 export default Button;

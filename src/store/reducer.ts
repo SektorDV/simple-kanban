@@ -1,4 +1,4 @@
-import {UPDATE_COLUMNS, DELETE_TASK} from './actions'
+import {UPDATE_COLUMNS, DELETE_TASK, ADD_TASK} from './actions'
 import {AppActionTypes} from './types'
 import {initialData} from './initialState'
 /* eslint-disable import/no-anonymous-default-export */
@@ -13,7 +13,7 @@ export default (state = initialData, action: AppActionTypes) => {
                 }
             }
         case DELETE_TASK:
-            const newTasks = state.tasks;
+            const newTasks = {...state.tasks};
             delete newTasks[action.payload];
 
             const columnToUpdate = Object.values(state.columns).filter(column => column.taskIds.includes(action.payload))[0]
@@ -29,6 +29,26 @@ export default (state = initialData, action: AppActionTypes) => {
                         taskIds: newTaskIds
                     }
                 }
+            }
+
+        case ADD_TASK:
+            return {
+                ...state,
+                tasks: {
+                    ...state.tasks,
+                    [`task-${state.currentIndex}`]: {
+                        id: `task-${state.currentIndex}`,
+                        content: 'New task'
+                    }
+                },
+                columns: {
+                    ...state.columns,
+                    [action.payload.columnId]: {
+                        ...state.columns[action.payload.columnId],
+                        taskIds: [...state.columns[action.payload.columnId].taskIds, `task-${state.currentIndex}`]
+                    }
+                },
+                currentIndex: state.currentIndex + 1
             }
         default:
             return state

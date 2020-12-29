@@ -1,6 +1,6 @@
 import {ITask} from 'components/task/Task'
 import {IColumn} from 'components/column/Column'
-import {UPDATE_COLUMNS, DELETE_TASK} from './actions'
+import {UPDATE_COLUMNS, DELETE_TASK, ADD_TASK} from './actions'
 export interface ITaskList {
     [key: string]: ITask;
   }
@@ -13,7 +13,8 @@ export interface ITaskList {
 export interface IAppState {
     tasks: ITaskList,
     columns: IColumnList,
-    columnLayout: string[]
+    columnLayout: string[],
+    currentIndex: number
 }
 
 interface UpdateColumnAction {
@@ -26,4 +27,11 @@ interface DeleteTaskAction {
     payload: ITask["id"]
 }
 
-export type AppActionTypes = UpdateColumnAction | DeleteTaskAction
+interface AddTaskAction {
+    type: typeof ADD_TASK,
+    payload: {
+        columnId: IColumn["id"]
+    }
+}
+
+export type AppActionTypes = UpdateColumnAction | DeleteTaskAction | AddTaskAction
