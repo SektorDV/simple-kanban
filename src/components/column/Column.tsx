@@ -3,30 +3,34 @@ import { Wrapper } from "./styles";
 import Task, { ITask } from "components/task/Task";
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
+import { useSelector, RootStateOrAny } from "react-redux";
 
-interface IColumn {
-  header: string;
-  tasks: ITask[];
+export interface IColumn {
   id: string;
+  header: string;
+  taskIds: ITask["id"][];
 }
 
 const TaskList = styled.div``;
 
-const Column: React.FC<IColumn> = ({ header, children, tasks, id }) => {
+const Column: React.FC<IColumn> = ({ header, children, taskIds, id }) => {
+  const tasks = useSelector((state: RootStateOrAny) => state.tasks);
   return (
     <Wrapper>
       <h2>{header}</h2>
       <Droppable droppableId={id}>
         {(provided) => (
           <TaskList {...provided.droppableProps} ref={provided.innerRef}>
-            {tasks.map((task, index) => (
-              <Task
-                key={task.id}
-                index={index}
-                id={task.id}
-                content={task.content}
-              />
-            ))}
+            {taskIds.map((taskId: ITask["id"], index: number) => {
+              return (
+                <Task
+                  key={tasks[taskId].id}
+                  index={index}
+                  id={tasks[taskId].id}
+                  content={tasks[taskId].content}
+                />
+              );
+            })}
             {provided.placeholder}
           </TaskList>
         )}

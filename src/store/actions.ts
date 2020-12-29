@@ -1,0 +1,1 @@
+export const UPDATE_COLUMNS = 'UPDATE_COLUMNS'

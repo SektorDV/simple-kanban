@@ -1,30 +1,17 @@
 import React, { useState } from "react";
 import { Wrapper } from "./styles/index";
 import Column from "components/column/Column";
-import { ITask } from "components/task/Task";
 import Button from "components/button/Button";
-import initialData from "initialData";
+import { initialData } from "store/initialState";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-
-interface IColumn {
-  id: string;
-  header: string;
-  taskIds: ITask["id"][];
-}
-
-interface ITaskList {
-  [key: string]: ITask;
-}
-
-interface IColumnList {
-  [key: string]: IColumn;
-}
+import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
+import { UPDATE_COLUMNS } from "store/actions";
 
 const Main: React.FC = () => {
   const [currentId, setCurrentId] = useState<number>(1);
-  const [tasks, setTasks] = useState<ITaskList>(initialData.tasks);
-  const [columns, setColumns] = useState<IColumnList>(initialData.columns);
 
+  const { columns } = useSelector((state: RootStateOrAny) => state);
+  const dispatch = useDispatch();
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
@@ -46,10 +33,7 @@ const Main: React.FC = () => {
         ...sourceColumn,
         taskIds: newTaskIds,
       };
-      setColumns({
-        ...columns,
-        [newColumn.id]: newColumn,
-      });
+      dispatch({ type: UPDATE_COLUMNS, payload: newColumn });
     } else {
       const newSourceTaskIds = Array.from(sourceColumn.taskIds);
       const newDestinationTaskIds = Array.from(destinationColumn.taskIds);
@@ -65,12 +49,8 @@ const Main: React.FC = () => {
         ...destinationColumn,
         taskIds: newDestinationTaskIds,
       };
-
-      setColumns({
-        ...columns,
-        [newSourceColumn.id]: newSourceColumn,
-        [newDestinationColumn.id]: newDestinationColumn,
-      });
+      dispatch({ type: UPDATE_COLUMNS, payload: newSourceColumn });
+      dispatch({ type: UPDATE_COLUMNS, payload: newDestinationColumn });
     }
   };
 
@@ -78,15 +58,11 @@ const Main: React.FC = () => {
     <Wrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         {initialData.columnLayout.map((column) => {
-          const columnTasks = columns[column].taskIds.map(
-            (taskId) => tasks[taskId]
-          );
-
           return (
             <Column
               key={column}
               header={columns[column].header}
-              tasks={columnTasks}
+              taskIds={columns[column].taskIds}
               id={column}
             >
               <Button color="green" label="+" />
