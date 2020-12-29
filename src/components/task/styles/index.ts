@@ -8,6 +8,9 @@ export const Wrapper = styled.div`
     margin-bottom: 1rem;
     background-color: white;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 export const CloseButton = styled.div`
@@ -32,4 +35,13 @@ export const TaskId = styled.p`
     bottom: 0px;
     right: 5px;
     font-size: 0.7rem;
+`
+
+export const TaskText = styled.p`
+    min-height: 50px;
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 `

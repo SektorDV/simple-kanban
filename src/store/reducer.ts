@@ -1,4 +1,4 @@
-import {UPDATE_COLUMNS, DELETE_TASK, ADD_TASK} from './actions'
+import {UPDATE_COLUMNS, DELETE_TASK, ADD_TASK, UPDATE_TASK_CONTENT} from './actions'
 import {AppActionTypes} from './types'
 import {initialData} from './initialState'
 /* eslint-disable import/no-anonymous-default-export */
@@ -38,7 +38,7 @@ export default (state = initialData, action: AppActionTypes) => {
                     ...state.tasks,
                     [`task-${state.currentIndex}`]: {
                         id: `task-${state.currentIndex}`,
-                        content: 'New task'
+                        content: 'Enter task description'
                     }
                 },
                 columns: {
@@ -49,6 +49,18 @@ export default (state = initialData, action: AppActionTypes) => {
                     }
                 },
                 currentIndex: state.currentIndex + 1
+            }
+
+        case UPDATE_TASK_CONTENT:
+            return {
+                ...state,
+                tasks: {
+                    ...state.tasks,
+                    [action.payload.taskId]: {
+                        ...state.tasks[action.payload.taskId],
+                        content: action.payload.content
+                    }
+                }
             }
         default:
             return state
