@@ -5,23 +5,24 @@ const initialData = {
         'task-3': {id: 'task-3', content: 'Task 3'},
         'task-4': {id: 'task-4', content: 'Task 4'}
     },
-    columns: [
-        {
-            id: 'todo',
+    columns: {
+        'column-1': {
+            id: 'column-1',
             header: 'To do',
             taskIds: ['task-1', 'task-2', 'task-3', 'task-4']
         },
-        {
-            id: 'inProgress',
+        'column-2': {
+            id: 'column-2',
             header: 'In Progress',
             taskIds: [],
         },
-        {
-            id: 'done',
+        'column-3': {
+            id: 'column-3',
             header: 'Done',
             taskIds: []
         }
-    ]
+    },
+    columnLayout: ['column-1', 'column-2', 'column-3']
 }
 
 export default initialData
