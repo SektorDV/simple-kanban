@@ -14,3 +14,6 @@ export const Wrapper = styled.div<IWrapper>`
         color: black;
     }
 `
+export const TaskList = styled.div`
+    min-height: 20px;
+`;

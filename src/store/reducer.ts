@@ -54,9 +54,9 @@ export default (state = initialData, action: AppActionTypes) => {
                 },
                 columns: {
                     ...state.columns,
-                    [action.payload.columnId]: {
-                        ...state.columns[action.payload.columnId],
-                        taskIds: [...state.columns[action.payload.columnId].taskIds, `task-${state.currentIndex}`]
+                    [action.payload]: {
+                        ...state.columns[action.payload],
+                        taskIds: [...state.columns[action.payload].taskIds, `task-${state.currentIndex}`]
                     }
                 },
                 currentIndex: state.currentIndex + 1

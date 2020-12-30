@@ -55,9 +55,7 @@ const Main: React.FC = () => {
   const handleAddTask = (columnId: IColumn["id"]) => {
     dispatch({
       type: ADD_TASK,
-      payload: {
-        columnId,
-      },
+      payload: columnId,
     });
   };
 

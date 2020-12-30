@@ -1,8 +1,7 @@
 import React from "react";
-import { Wrapper } from "./styles";
+import { Wrapper, TaskList } from "./styles";
 import Task, { ITask } from "components/task/Task";
 import { Droppable } from "react-beautiful-dnd";
-import styled from "styled-components";
 import { useSelector, RootStateOrAny } from "react-redux";
 
 export interface IColumn {
@@ -14,8 +13,6 @@ export interface IColumn {
 export interface IWrapper {
   draggedOver?: boolean;
 }
-
-const TaskList = styled.div``;
 
 const Column: React.FC<IColumn> = ({ header, children, taskIds, id }) => {
   const tasks = useSelector((state: RootStateOrAny) => state.tasks);

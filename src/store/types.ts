@@ -29,9 +29,7 @@ interface DeleteTaskAction {
 
 interface AddTaskAction {
     type: typeof ADD_TASK,
-    payload: {
-        columnId: IColumn["id"]
-    }
+    payload: IColumn["id"]
 }
 
 interface UpdateTaskAction {
