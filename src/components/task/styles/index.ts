@@ -1,16 +1,19 @@
 import styled from 'styled-components'
+import {IWrapper} from '../Task'
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<IWrapper>`
     min-height: 100px;
     padding: 5px;
-    border: 2px solid gray;
-    border-radius: 4px;
+    border: 1px solid black;
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.5);
+    border-radius: 8px;
     margin-bottom: 1rem;
     background-color: white;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: ${({dragged}) => dragged? '#C2DFE3' : '#E0FBFC'}
 `
 
 export const CloseButton = styled.div`

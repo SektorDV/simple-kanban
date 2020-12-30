@@ -10,6 +10,10 @@ export interface ITask {
   index?: number;
 }
 
+export interface IWrapper {
+  dragged?: boolean;
+}
+
 const Task: React.FC<ITask> = ({ id, content, index }) => {
   const [isEdit, setEdit] = useState(false);
   const [currentContent, setCurrentContent] = useState(content);
@@ -17,7 +21,6 @@ const Task: React.FC<ITask> = ({ id, content, index }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    console.log(textAreaRef.current);
     if (textAreaRef.current) {
       textAreaRef.current.focus();
     }
@@ -51,11 +54,12 @@ const Task: React.FC<ITask> = ({ id, content, index }) => {
 
   return (
     <Draggable draggableId={id} index={index || 0}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <Wrapper
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          dragged={snapshot.isDragging}
         >
           {!isEdit && (
             <TaskText onClick={toggleEdit}>

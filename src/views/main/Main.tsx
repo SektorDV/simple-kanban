@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Wrapper } from "./styles/index";
 import Column, { IColumn } from "components/column/Column";
 import Button from "components/button/Button";
@@ -8,10 +8,6 @@ import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import { ADD_TASK, UPDATE_COLUMNS } from "store/actions";
 
 const Main: React.FC = () => {
-  const [currentId, setCurrentId] = useState<number>(1);
-  const currentIndex = useSelector(
-    (state: RootStateOrAny) => state.currentIndex
-  );
   const { columns } = useSelector((state: RootStateOrAny) => state);
   const dispatch = useDispatch();
   const onDragEnd = (result: DropResult) => {

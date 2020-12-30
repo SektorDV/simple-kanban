@@ -11,15 +11,19 @@ export interface IColumn {
   taskIds: ITask["id"][];
 }
 
+export interface IWrapper {
+  draggedOver?: boolean;
+}
+
 const TaskList = styled.div``;
 
 const Column: React.FC<IColumn> = ({ header, children, taskIds, id }) => {
   const tasks = useSelector((state: RootStateOrAny) => state.tasks);
   return (
-    <Wrapper>
-      <h2>{header}</h2>
-      <Droppable droppableId={id}>
-        {(provided) => (
+    <Droppable droppableId={id}>
+      {(provided, snapshot) => (
+        <Wrapper draggedOver={snapshot.isDraggingOver}>
+          <h2>{header}</h2>
           <TaskList {...provided.droppableProps} ref={provided.innerRef}>
             {taskIds.map((taskId: ITask["id"], index: number) => {
               return (
@@ -33,10 +37,10 @@ const Column: React.FC<IColumn> = ({ header, children, taskIds, id }) => {
             })}
             {provided.placeholder}
           </TaskList>
-        )}
-      </Droppable>
-      {children}
-    </Wrapper>
+          {children}
+        </Wrapper>
+      )}
+    </Droppable>
   );
 };
 
