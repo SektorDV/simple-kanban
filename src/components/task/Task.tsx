@@ -3,6 +3,7 @@ import { Wrapper, CloseButton, TaskId, TaskText } from "./styles";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { DELETE_TASK, UPDATE_TASK_CONTENT } from "store/actions";
+import Swal from "sweetalert2";
 
 export interface ITask {
   id: string;
@@ -27,7 +28,20 @@ const Task: React.FC<ITask> = ({ id, content, index }) => {
   }, [textAreaRef, isEdit]);
 
   const handleDelete = (id: ITask["id"]) => {
-    dispatch({ type: DELETE_TASK, payload: id });
+    Swal.fire({
+      title: "Are you sure you want to delete this task?",
+      icon: "warning",
+      showCancelButton: true,
+      showDenyButton: true,
+      showConfirmButton: false,
+      showCloseButton: false,
+      denyButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isDenied) {
+        dispatch({ type: DELETE_TASK, payload: id });
+      }
+    });
   };
 
   const toggleEdit = () => {
